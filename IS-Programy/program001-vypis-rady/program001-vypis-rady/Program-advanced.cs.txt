@@ -1,0 +1,71 @@
+// Rozšířená verze výpisu řady
+// Nadstavba: řada funguje oběma směry. Když je první číslo větší než poslední,
+// program řadu automaticky vypíše sestupně (např. 10, 7, 4, 1).
+// Původní verze v tom případě nevypsala nic.
+
+string again = "a";
+Console.Clear();
+while(again.ToLower() == "a")
+{
+    Console.Clear();
+    Console.WriteLine("***************************************");
+    Console.WriteLine("******** Výpis řady - rozšířený *******");
+    Console.WriteLine("***************************************");
+    Console.WriteLine("************ Daniel Čeřovský **********");
+    Console.WriteLine("***************************************");
+    Console.WriteLine("***************************************");
+    Console.WriteLine();
+
+    // Vstup počáteční hodnoty
+    Console.Write("Zadejte první číslo řady (celé číslo): ");
+    int first;
+    while(!int.TryParse(Console.ReadLine(), out first))
+    {
+        Console.Write("Nezadali jste celé číslo! Zadejte první číslo řady znovu (celé číslo): ");
+    }
+
+    // Vstup konečné hodnoty
+    Console.Write("Zadejte poslední číslo řady (celé číslo): ");
+    int last;
+    while(!int.TryParse(Console.ReadLine(), out last))
+    {
+        Console.Write("Nezadali jste celé číslo! Zadejte poslední číslo řady znovu (celé číslo): ");
+    }
+
+    // Diference je pořád kladná, směr řady určí program sám
+    Console.Write("Zadejte diferenci (kladné celé číslo): ");
+    int step;
+    while(!int.TryParse(Console.ReadLine(), out step) || step <= 0 )
+    {
+        Console.Write("Nezadali jste kladné celé číslo! Zadejte diferenci znovu (kladné celé číslo): ");
+    }
+
+    Console.WriteLine();
+
+    // Nadstavba: podle první a poslední hodnoty se rozhodne, jestli řada roste, nebo klesá
+    if (first <= last)
+    {
+        Console.WriteLine($"Rostoucí řada od {first} do {last} s diferencí {step}:");
+        for (int i = first; i <= last; i = i + step)
+        {
+            Console.WriteLine(i);
+        }
+    }
+    else
+    {
+        Console.WriteLine($"Klesající řada od {first} do {last} s diferencí {step}:");
+        for (int i = first; i >= last; i = i - step)
+        {
+            Console.WriteLine(i);
+        }
+    }
+
+    // Dotaz směrem k uživateli na opakování
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("Pro opakování programu stiskněte klávesu a. Následně potvrďte klávesou Enter. ");
+    Console.WriteLine("Jakoukoli jinou klávesou program ukončíte.");
+    Console.WriteLine();
+    Console.Write("Chcete program spustit znovu? ");
+    again = Console.ReadLine() ?? "";
+}
