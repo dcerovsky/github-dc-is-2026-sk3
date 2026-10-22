@@ -1,0 +1,101 @@
+// Program 001 - výpis aritmetické řady čísel s opakováním.
+// Soubor má příponu .txt, aby ho kompilátor ignoroval: v projektu smí být jen jeden
+// soubor s příkazy nejvyšší úrovně (top-level statements), a tím je Program.cs.
+
+// Proměnná řídí opakování celého programu. Začíná hodnotou "a", aby podmínka
+// cyklu while platila hned napoprvé a program proběhl aspoň jednou.
+string again = "a";
+
+// Vyčistí konzoli před prvním spuštěním, aby výstup nezačínal pod textem,
+// který v terminálu zůstal po předchozích příkazech (např. po dotnet run).
+Console.Clear();
+
+// Cyklus opakuje celý program, dokud uživatel na konci odpoví "a".
+// .ToLower() převede odpověď na malá písmena, takže opakování funguje pro "a" i "A"
+// a uživatel nemusí řešit, jestli má zapnutý Caps Lock.
+while(again.ToLower() == "a")
+{
+    // Každé kolo začíná na čisté obrazovce, aby se výsledky předchozí řady
+    // nepletly s novou.
+    Console.Clear();
+
+    // Hlavička programu - uživatel hned ví, jaký program spustil a kdo ho napsal.
+    Console.WriteLine("***************************************");
+    Console.WriteLine("************ Výpis řady ***************");
+    Console.WriteLine("***************************************");
+    Console.WriteLine("************ Daniel Čeřovský **********");
+    Console.WriteLine("***************************************");
+    Console.WriteLine("***************************************");
+    // Prázdný řádek odděluje hlavičku od dotazů na vstup, aby výstup byl čitelnější.
+    Console.WriteLine();
+
+    // Ukázka špatného řešení vstupu, nechaná zakomentovaná pro srovnání:
+    // int.Parse při zadání textu (např. "abc") vyhodí výjimku a program spadne.
+    // Console.Write("Zadejte první číslo řady (celé číslo): ");
+    // int first =int.Parse(Console.ReadLine());
+
+    // Výzva říká uživateli nejen co zadat, ale i v jakém formátu (celé číslo),
+    // aby nemusel hádat a zbytečně neopakoval chybné zadání.
+    Console.Write("Zadejte první číslo řady (celé číslo): ");
+    // Proměnnou deklarujeme před cyklem, protože do ní TryParse zapíše výsledek
+    // přes "out" a po cyklu ji potřebujeme dál.
+    int first;
+    // Validace vstupu proti zadání nečíselné hodnoty: TryParse místo pádu programu
+    // vrátí false a cyklus se ptá znovu, dokud uživatel nezadá platné celé číslo.
+    while(!int.TryParse(Console.ReadLine(), out first))
+    {
+        // Chybová hláška vysvětlí, co bylo špatně, a hned požádá o nové zadání.
+        Console.Write("Nezadali jste celé číslo! Zadejte první číslo řady znovu (celé číslo): ");
+    }
+
+    // Poslední hodnota určuje, kde se řada zastaví. Kontrolujeme ji stejně jako první,
+    // protože i tady by nečíselný vstup program shodil.
+    Console.Write("Zadejte poslední číslo řady (celé číslo): ");
+    int last;
+    while(!int.TryParse(Console.ReadLine(), out last))
+    {
+        Console.Write("Nezadali jste celé číslo! Zadejte poslední číslo řady znovu (celé číslo): ");
+    }
+
+    // Diference je krok, o který se každé další číslo řady zvětší.
+    Console.Write("Zadejte diferenci (kladné celé číslo): ");
+    int step;
+    // Dvojí kontrola: číslo musí jít převést a zároveň musí být kladné.
+    // Krok 0 by řadu nikdy neposunul a cyklus níže by běžel donekonečna;
+    // záporný krok by se od first vzdaloval od last a řada by také nikdy neskončila.
+    // Operátor || zajistí, že při nečíselném vstupu se podmínka step <= 0 už nevyhodnocuje.
+    while(!int.TryParse(Console.ReadLine(), out step) || step <= 0 )
+    {
+        Console.Write("Nezadali jste kladné celé číslo! Zadejte diferenci znovu (kladné celé číslo): ");
+    }
+
+    // Prázdný řádek a shrnutí zadání nad řadou, aby uživatel viděl, z čeho výsledek vznikl,
+    // a mohl si zkontrolovat, že zadal to, co chtěl.
+    Console.WriteLine();
+    Console.WriteLine($"Řada od {first} do {last} s diferencí {step}:");
+
+    // Samotný algoritmus: začneme na první hodnotě a po každém výpisu přičteme krok.
+    // Podmínka i <= last zastaví výpis, jakmile by další číslo přesáhlo poslední hodnotu,
+    // proto se poslední hodnota vypíše jen tehdy, když na ni řada přesně trefí
+    // (1 až 10 s krokem 2 končí na 9, ne na 10).
+    // Když je first větší než last, podmínka neplatí hned na začátku a nevypíše se nic.
+    for (int i = first; i <= last; i = i + step)
+    {
+        // Každé číslo na samostatný řádek, jak ukazuje příklad v zadání.
+        Console.WriteLine(i);
+    }
+
+    // Dva prázdné řádky oddělí výsledek od dotazu na opakování.
+    Console.WriteLine();
+    Console.WriteLine();
+    // Návod říká přesně, kterou klávesu stisknout a že je potřeba potvrdit Enterem,
+    // protože Console.ReadLine čeká na celý řádek, ne na jednu klávesu.
+    Console.WriteLine("Pro opakování programu stiskněte klávesu a. Následně potvrďte klávesou Enter. ");
+    Console.WriteLine("Jakoukoli jinou klávesou program ukončíte.");
+    Console.WriteLine();
+    Console.Write("Chcete program spustit znovu? ");
+    // Odpověď se uloží do again a podmínka while ji na začátku dalšího kola vyhodnotí.
+    // ReadLine vrací null, když vstup skončí (např. Ctrl+D v terminálu); ?? "" ho nahradí
+    // prázdným textem, protože volání .ToLower() na null by program shodilo.
+    again = Console.ReadLine() ?? "";
+}
