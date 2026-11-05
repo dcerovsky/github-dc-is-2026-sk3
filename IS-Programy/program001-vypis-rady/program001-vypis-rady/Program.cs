@@ -16,7 +16,7 @@ while(again.ToLower() == "a")
     Console.WriteLine("***************************************");
     Console.WriteLine("************ Výpis řady ***************");
     Console.WriteLine("***************************************");
-    Console.WriteLine("************ Daniel Čeřovský **********");
+    Console.WriteLine("************ Daniel Čeřovský **************");
     Console.WriteLine("***************************************");
     Console.WriteLine("***************************************");
     Console.WriteLine();
@@ -42,26 +42,58 @@ while(again.ToLower() == "a")
     }
 
     // Vstup pro diferenci s kontrolou na kladnou hodnotu
-    Console.Write("Zadejte diferenci (kladné celé číslo): ");
+    Console.Write("Zadejte diferenece (kladné celé číslo): ");
     int step;
     while(!int.TryParse(Console.ReadLine(), out step) || step <= 0 )
     {
         Console.Write("Nezadali jste kladné celé číslo! Zadejte diferenci znovu (kladné celé číslo): ");
     }
 
-    // Výpis řady
+
+    // Rekapitulace zadaných hodnot
     Console.WriteLine();
-    Console.WriteLine($"Řada od {first} do {last} s diferencí {step}:");
-    for (int i = first; i <= last; i = i + step)
+    Console.WriteLine("====================================");
+    // Proměnné vypsané pod sebou
+    // Console.WriteLine($"První číslo řady: {first}");
+    // Console.WriteLine($"Poslední číslo řady: {last}");
+    // Console.WriteLine($"Diference (krok): {step}");
+    
+    // Proměnné vypsané vedle sebe
+    Console.WriteLine($"První číslo řady: {first}; Poslední číslo řady: {last}; Diference (krok): {step}");
+    
+    Console.WriteLine("====================================");
+    Console.WriteLine();
+    
+
+    // Algoritmus pro výpis řady
+    if (first <= last)
     {
-        Console.WriteLine(i);
+        int current = first;
+        while(current <= last)
+        {
+            // Console.WriteLine(current);
+            Console.Write($"{current}; ");
+            // current = current + step;
+            // předchozí řádek lze napsat zkráceně
+            current += step;
+
+        }
     }
+    else
+    {
+      Console.WriteLine("Řadu nelze vypsat!");
+      Console.WriteLine("První číslo je větš než poslední číslo řady!");
+      Console.WriteLine("Tento program umí vypsat pouze vzestupnou řadu (od menšího k většímu).");  
+    }
+
+
+
 
     // Dotaz směrem k uživateli na opakování
     Console.WriteLine();
     Console.WriteLine();
-    Console.WriteLine("Pro opakování programu stiskněte klávesu a. Následně potvrďte klávesou Enter. ");
-    Console.WriteLine("Jakoukoli jinou klávesou program ukončíte.");
+    Console.WriteLine("Pro opakování programu stislněte klávesu a. Následně potvrďte klávesou Enter. ");
+    Console.WriteLine("Jakokouli jinou klávesou program ukončíte.");
     Console.WriteLine();
     Console.Write("Chcete program spustit znovu? ");
     again = Console.ReadLine() ?? "";
