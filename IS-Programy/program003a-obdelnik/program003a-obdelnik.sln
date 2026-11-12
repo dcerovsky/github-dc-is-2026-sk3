@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "program003a-obdelnik", "program003a-obdelnik\program003a-obdelnik.csproj", "{31777A2C-07BF-4251-BF80-E0B332618452}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31777A2C-07BF-4251-BF80-E0B332618452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31777A2C-07BF-4251-BF80-E0B332618452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31777A2C-07BF-4251-BF80-E0B332618452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31777A2C-07BF-4251-BF80-E0B332618452}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
