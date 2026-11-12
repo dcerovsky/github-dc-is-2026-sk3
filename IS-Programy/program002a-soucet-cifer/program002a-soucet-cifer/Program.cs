@@ -1,84 +1,98 @@
-﻿string again = "a";
-Console.Clear();
-// .ToLower() převede vstup na malá písmena, takže program bude pokračovat při zadávání malého "a" tak i velkého "A"
-while(again.ToLower() == "a")
+﻿// UTF-8 zajistí, že se linka a diakritika zobrazí správně i ve Windows cmd
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+// Řídicí proměnná pro opakování programu
+string again = "a";
+
+// Hlavní smyčka programu: běží znovu, pokud uživatel zadá 'a' nebo 'A'
+while (again.ToLower() == "a")
 {
     Console.Clear();
-    Console.WriteLine("***************************************");
-    Console.WriteLine("****** Součet a součin cifer **********");
-    Console.WriteLine("***************************************");
-    Console.WriteLine("************ Daniel Čeřovský **********");
-    Console.WriteLine("***************************************");
-    Console.WriteLine("***************************************");
+    // Hlavička: název programu velkými proloženými písmeny modře, pod ním podpis
+    string title = "Ciferný součet a součin";
+    string author = "Daniel Čeřovský";
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.Write("  ");
+    int width = 0;
+    foreach (char c in title.ToUpper())
+    {
+        if (c == ' ')
+        {
+            // Mezera mezi slovy je širší než mezera mezi písmeny, aby šla slova přečíst
+            Console.Write("  ");
+            width = width + 2;
+        }
+        else
+        {
+            Console.Write(c + " ");
+            width = width + 2;
+        }
+    }
     Console.WriteLine();
 
-    // Vstup celého čísla
+    // Linka i podpis mají stejnou šířku jako název, takže hlavička sedí pro jakýkoli název
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine("  " + new string('─', width - 1));
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine("  " + ("~ " + author).PadLeft(width - 1));
+    Console.ResetColor();
+    Console.WriteLine();
+
+    // 1. Bezpečné načtení celého čísla od uživatele
     Console.Write("Zadejte celé číslo: ");
     int number;
-    while(!int.TryParse(Console.ReadLine(), out number))
+    while (!int.TryParse(Console.ReadLine(), out number))
     {
-        Console.Write("Nezadali jste celé číslo! Zadejte celé číslo znovu: ");
+        Console.Write("Nezadali jste celé číslo. Zadejte celé číslo znovu: ");
     }
 
-    // Rekapitulace zadané hodnoty
-    Console.WriteLine();
-    Console.WriteLine("====================================");
-    Console.WriteLine($"Zadané číslo: {number}");
-    Console.WriteLine("====================================");
-    Console.WriteLine();
+    // 2. Příprava pomocných proměnných pro výpočet
+    int numberBackup = number; // Záloha původního čísla pro závěrečný výpis
+    int sum = 0;               // Neutrální prvek pro sčítání je 0
+    int product = 1;           // Neutrální prvek pro násobení je 1 (s 0 by součin vyšel vždy 0)
+    int digit;                // Proměnná pro uložení právě oddělené cifry
 
-
-    // Začátek konkrétního algoritmu
-
-    // Pracovní kopie čísla, původní number zůstane pro závěrečný výpis.
-    // Je typu long, protože -int.MinValue se do int nevejde.
-    long workNumber = number;
-
-    // Záporné číslo převedeme na kladné, znaménko na cifry nemá vliv
-    if (workNumber < 0)
+    // 3. Ošetření záporných čísel (znaménko nemá vliv na cifry)
+    if (number < 0)
     {
-        workNumber = -workNumber;
+        number = -number;
     }
 
-    int sum = 0;        // 0 je neutrální prvek pro sčítání
-    int product = 1;    // 1 je neutrální prvek pro násobení
-    int digit;
-
-    if (workNumber == 0)
+    // 4. Zvláštní případ pro nulu
+    if (number == 0)
     {
-        // Číslo 0 má jedinou cifru 0, cyklus níže by vůbec neproběhl
         sum = 0;
-        product = 0;
+        product = 0;               // Číslo 0 má jedinou cifru 0, součin je tedy 0
     }
     else
     {
-        Console.WriteLine("Rozklad čísla na cifry (zprava doleva):");
-        while (workNumber > 0)
+        Console.WriteLine();
+        Console.WriteLine("Průběh rozkladu čísla na cifry (zprava doleva):");
+
+        // 5. Matematický rozklad čísla pomocí cyklu
+        while (number > 0)
         {
-            digit = (int)(workNumber % 10);     // zbytek po dělení 10 je poslední cifra
-            sum = sum + digit;
-            product = product * digit;
-            Console.WriteLine($"Cifra: {digit}");
-            workNumber = workNumber / 10;       // celočíselné dělení 10 odstraní poslední cifru
+            digit = number % 10;            // Modulo 10 získá poslední číslici
+            sum = sum + digit;              // Přičtení cifry k celkovému součtu
+            product = product * digit;      // Vynásobení cifrou (cifra 0 udělá ze součinu 0)
+
+            Console.WriteLine($"Získána cifra: {digit}");
+
+            number = number / 10;           // Celočíselné dělení 10 odstraní poslední číslici
         }
     }
 
-    // Výpis výsledků
+    // 6. Výpis výsledků
     Console.WriteLine();
     Console.WriteLine("====================================");
-    Console.WriteLine($"Ciferný součet čísla {number}: {sum}");
-    Console.WriteLine($"Ciferný součin čísla {number}: {product}");
+    Console.WriteLine($"Původní číslo:  {numberBackup}");
+    Console.WriteLine($"Ciferný součet: {sum}");
+    Console.WriteLine($"Ciferný součin: {product}");
     Console.WriteLine("====================================");
-
-    // Konec konkrétního algoritmu
-
-
-    // Dotaz směrem k uživateli na opakování
     Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine("Pro opakování programu stiskněte klávesu a. Následně potvrďte klávesou Enter. ");
-    Console.WriteLine("Jakoukoli jinou klávesou program ukončíte.");
-    Console.WriteLine();
-    Console.Write("Chcete program spustit znovu? ");
+
+    // 7. Dotaz na opakování programu
+    Console.Write("Pro opakování programu stiskněte 'a' a potvrďte klávesou Enter: ");
     again = Console.ReadLine() ?? "";
 }

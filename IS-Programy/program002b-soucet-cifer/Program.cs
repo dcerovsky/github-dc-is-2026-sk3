@@ -1,15 +1,41 @@
-﻿string again = "a";
+﻿// UTF-8 zajistí, že se linka a diakritika zobrazí správně i ve Windows cmd
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+string again = "a";
 Console.Clear();
 // .ToLower() převede vstup na malá písmena, takže program bude pokračovat při zadávání malého "a" tak i velkého "A"
 while(again.ToLower() == "a")
 {
     Console.Clear();
-    Console.WriteLine("***************************************");
-    Console.WriteLine("*** Součet a součin cifer - text ******");
-    Console.WriteLine("***************************************");
-    Console.WriteLine("************ Daniel Čeřovský **********");
-    Console.WriteLine("***************************************");
-    Console.WriteLine("***************************************");
+    // Hlavička: název programu velkými proloženými písmeny modře, pod ním podpis
+    string title = "Součet a součin cifer (text)";
+    string author = "Daniel Čeřovský";
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.Write("  ");
+    int width = 0;
+    foreach (char c in title.ToUpper())
+    {
+        if (c == ' ')
+        {
+            // Mezera mezi slovy je širší než mezera mezi písmeny, aby šla slova přečíst
+            Console.Write("  ");
+            width = width + 2;
+        }
+        else
+        {
+            Console.Write(c + " ");
+            width = width + 2;
+        }
+    }
+    Console.WriteLine();
+
+    // Linka i podpis mají stejnou šířku jako název, takže hlavička sedí pro jakýkoli název
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine("  " + new string('─', width - 1));
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine("  " + ("~ " + author).PadLeft(width - 1));
+    Console.ResetColor();
     Console.WriteLine();
 
     // Vstup celého čísla - TryParse hlídá, že uživatel opravdu zadal celé číslo
