@@ -1,12 +1,11 @@
 ﻿// UTF-8 zajistí, že se linka a diakritika zobrazí správně i ve Windows cmd
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-Console.Clear();
 string again = "a";
-// .ToLower() převede vstup na malá písmena, takže program bude pokračovat při zadávání "a" tak i "A"
-while(again.ToLower() == "a" )
+Console.Clear();
+// .ToLower() převede vstup na malá písmena, takže program bude pokračovat při zadávání malého "a" tak i velkého "A"
+while(again.ToLower() == "a")
 {
-    Console.WriteLine();
     Console.Clear();
     // Hlavička: název programu velkými proloženými písmeny modře, pod ním podpis
     string title = "Maximum a minimum";
@@ -40,7 +39,7 @@ while(again.ToLower() == "a" )
     Console.WriteLine();
 
     // Vstup pro počet generovaných čísel
-    Console.Write("Zadejte počet generovaných (kladné celé číslo): ");
+    Console.Write("Zadejte počet generovaných čísel (kladné celé číslo): ");
     int n;
     while(!int.TryParse(Console.ReadLine(), out n) || n<=0 )
     {
@@ -72,9 +71,7 @@ while(again.ToLower() == "a" )
     Console.WriteLine("==================================");
     Console.WriteLine();
 
-
-
-    // Deklarace pole a alokace v paměti
+    // Deklarace pole a jeho alokace v paměti
     int[] myRandNumbs = new int[n];
 
     // Inicializace generátoru náhodných čísel
@@ -89,12 +86,10 @@ while(again.ToLower() == "a" )
         Console.Write($"{myRandNumbs[i]}; ");
     }
 
+    // Začátek konkrétního algoritmu
 
-    // Jádro konkrétního algortimu
-
-    // Hledání maxima, minima a jejich umístění
-    int max = myRandNumbs[0]; // Předpokládáme, že nultý prvek v poli je maximem
-    int min = myRandNumbs[0]; // Předpokládáme, že nultý prvek v poli je minimem
+    int max = myRandNumbs[0];
+    int min = myRandNumbs[0];
     int posMax = 0;
     int posMin = 0;
 
@@ -136,78 +131,73 @@ while(again.ToLower() == "a" )
     }
 
     Console.WriteLine();
-    Console.WriteLine("==============================================");
-    Console.WriteLine($"Maximum: {max}");
-    Console.WriteLine($"Pozice prvního maxima: {posMax}");
+    Console.WriteLine("===================================");
+    Console.WriteLine($"Max: {max}");
+    Console.WriteLine($"Pozice prvního max: {posMax}");
     if (countMax > 1)
     {
-        Console.WriteLine($"Maximum se vyskytuje {countMax}x, na pozicích: {allPosMax}");
+        Console.WriteLine($"Max se vyskytuje {countMax}x, na pozicích: {allPosMax}");
     }
-    Console.WriteLine($"Minimum: {min}");
-    Console.WriteLine($"Pozice prvního minima: {posMin}");
+    Console.WriteLine($"Min: {min}");
+    Console.WriteLine($"Pozice prvního min: {posMin}");
     if (countMin > 1)
     {
-        Console.WriteLine($"Minimum se vyskytuje {countMin}x, na pozicích: {allPosMin}");
+        Console.WriteLine($"Min se vyskytuje {countMin}x, na pozicích: {allPosMin}");
     }
-    Console.WriteLine("==============================================");
+    Console.WriteLine("===================================");
     Console.WriteLine();
 
-    if (max >= 3)
+    // Vykreslení obrazce, jehož výška i šířka je řízena hodnotou maxima
+    if(max >= 3)
     {
-        // Vnější cyklus řídí vykreslování jednotlivých řádků
-        for(int i = 0; i < max; i++) {
-            // Budeme vykreslovat
+        // Bude se vykreslovat
+        for(int i = 0; i < max; i++)
+        {
             int spaces = 0;
             int stars = 0;
 
-            if(i < max / 2)
+            // Počet mezer a počet hvězdiček pro aktuální řádek
+            if( i < max/2)
             {
+                // Horní polovina obrazce
                 spaces = i;
-                stars = max  - (2 * i);
-
-                // Horní polovina hodin - písek, který ještě nepropadl
+                stars =   max - (2 * i);
                 Console.ForegroundColor = ConsoleColor.Yellow;
             }
             else
             {
-                // Dolní polovina je zrcadlem horní: řádek i odpovídá řádku max - 1 - i odshora.
-                // U sudého maxima vyjdou uprostřed dva řádky se dvěma hvězdičkami,
-                // u lichého jeden řádek s jednou hvězdičkou.
+                // Dolní polovina obrazce
                 spaces = max - 1 - i;
                 stars = max - (2 * spaces);
-
-                // Dolní polovina hodin - písek, který už propadl
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
             }
 
-            // Vykreslení úvodních mezer (dvě mezery, protože hvězdička i s mezerou zabírá dva znaky)
-            for(int sp = 0; sp < spaces; sp++)
+            // Vykreslení mezer
+            for(int sp = 0; sp < spaces; sp++ )
             {
-                Console.Write("  ");
+                Console.Write(" ");
             }
 
-
-            // Vykreslení hvězdiček s mezerou jako v ukázce ze zadání
+            // Vykreslení hvězdiček
             for(int st = 0; st < stars; st++)
             {
-                Console.Write("* ");
+                Console.Write("*");
             }
 
+            // Po té, co vykreslíme mezery a hvězdičky musíme odřádkovat
             Console.WriteLine();
-
 
         }
         Console.ResetColor();
-
     }
     else
     {
-        // Nebudeme vykreslovat
-        Console.WriteLine("Maximum je menší než 3 => obrazec se nevykreslí");
+        // Nebude se vykreslovat
+        Console.WriteLine("Maximum je menší než 3 => obrazec se nevykreslí!");
     }
 
 
-    // Konec jádra konkrétního algoritmu
+    // Konec konkrétního algoritmu
 
 
     // Dotaz směrem k uživateli na opakování
@@ -218,5 +208,4 @@ while(again.ToLower() == "a" )
     Console.WriteLine();
     Console.Write("Chcete program spustit znovu? ");
     again = Console.ReadLine() ?? "";
-
 }
