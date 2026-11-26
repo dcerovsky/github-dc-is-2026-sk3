@@ -38,7 +38,7 @@ while (again.ToLower() == "a")
     Console.WriteLine();
 
     // 1. Bezpečné načtení šířky s kontrolou na kladnou hodnotu
-    Console.Write("Zadejte šířku obrazce (přirozené číslo): ");
+    Console.Write("Zadejte šířku obrazce: ");
     int width;
     while (!int.TryParse(Console.ReadLine(), out width) || width <= 0)
     {
@@ -46,7 +46,7 @@ while (again.ToLower() == "a")
     }
 
     // 2. Bezpečné načtení výšky s kontrolou na kladnou hodnotu
-    Console.Write("Zadejte výšku obrazce (přirozené číslo): ");
+    Console.Write("Zadejte výšku obrazce: ");
     int height;
     while (!int.TryParse(Console.ReadLine(), out height) || height <= 0)
     {
@@ -61,6 +61,15 @@ while (again.ToLower() == "a")
     // Vnější cyklus počítá řádky (shora dolů)
     for (int i = 1; i <= height; i++)
     {
+        if (i % 2 == 1)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+        }
+
         // Vnitřní cyklus sází sloupce v aktuálním řádku (zleva doprava)
         for (int j = 1; j <= width; j++)
         {
@@ -71,6 +80,7 @@ while (again.ToLower() == "a")
         // Konec řádku -> přesun kurzoru na nový řádek
         Console.WriteLine();
     }
+    Console.ResetColor();
 
     // 4. Dotaz na opakování
     Console.WriteLine();
